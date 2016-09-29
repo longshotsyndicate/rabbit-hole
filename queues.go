@@ -64,10 +64,9 @@ type QueueInfo struct {
 	// How many consumers this queue has
 	Consumers int `json:"consumers"`
 	// Utilisation of all the consumers
-	ConsumerUtilisation float64 `json:"consumer_utilisation"`
+	ConsumerUtilisation interface{} `json:"consumer_utilisation"`
 	// If there is an exclusive consumer, its consumer tag
-	ExclusiveConsumerTag string `json:"exclusive_consumer_tag"`
-
+	ExclusiveConsumerTag interface{} `json:"exclusive_consumer_tag"`
 	// Policy applied to this queue, if any
 	Policy string `json:"policy"`
 
