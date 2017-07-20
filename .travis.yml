@@ -4,17 +4,17 @@ dist: trusty
 language: go
 
 go:
-  - 1.3
-  - 1.4
-  - 1.5
   - 1.6
   - 1.7
+  - 1.8
   - tip
 
 services:
   - rabbitmq
 
-before_script: ./bin/ci/before_build.sh
+before_script:
+  - ./bin/ci/install_on_debian.sh
+  - ./bin/ci/before_build.sh
 
 script: make
 

@@ -4,7 +4,7 @@ This library is a [RabbitMQ HTTP API](https://raw.githack.com/rabbitmq/rabbitmq-
 
 ## Supported Go Versions
 
-Rabbit Hole requires Go 1.3+.
+Rabbit Hole requires Go 1.6+.
 
 
 ## Supported RabbitMQ Versions
@@ -140,6 +140,10 @@ x, err := rmqc.GetUser("my.user")
 resp, err := rmqc.PutUser("my.user", UserSettings{Password: "s3krE7", Tags: "management,policymaker"})
 // => *http.Response, err
 
+// creates or updates individual user with no password
+resp, err := rmqc.PutUserWithoutPassword("my.user", UserSettings{Tags: "management,policymaker"})
+// => *http.Response, err
+
 // deletes individual user
 resp, err := rmqc.DeleteUser("my.user")
 // => *http.Response, err
@@ -256,6 +260,31 @@ resp, err := rmqc.DeleteBinding("/", BindingInfo{
 // => *http.Response, err
 ```
 
+### Operations on Shovels
+
+``` go
+qs, err := rmqc.ListShovels()
+// => []ShovelInfo, err
+
+// list shovels in a vhost
+qs, err := rmqc.ListShovelsIn("/")
+// => []ShovelInfo, err
+
+// information about an individual shovel
+q, err := rmqc.GetShovel("/", "a.shovel")
+// => ShovelInfo, err
+
+// declares a shovel
+shovelDetails := rabbithole.ShovelDefinition{SourceURI: "amqp://sourceURI", SourceQueue: "mySourceQueue", DestinationURI: "amqp://destinationURI", DestinationQueue: "myDestQueue", AddForwardHeaders: true, AckMode: "on-confirm", DeleteAfter: "never"}
+resp, err := rmqc.DeclareShovel("/", "a.shovel", shovelDetails)
+// => *http.Response, err
+
+// deletes an individual shovel
+resp, err := rmqc.DeleteShovel("/", "a.shovel")
+// => *http.Response, err
+
+```
+
 ### HTTPS Connections
 
 ``` go
@@ -293,4 +322,4 @@ See [CONTRIBUTING.md](https://github.com/michaelklishin/rabbit-hole/blob/master/
 
 2-clause BSD license.
 
-(c) Michael S. Klishin, 2013-2016.
+(c) Michael S. Klishin, 2013-2017.
